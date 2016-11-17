@@ -1,4 +1,4 @@
-association-- create the databse
+-- create the databse
 DROP DATABASE IF EXISTS Elon;
 CREATE DATABASE Elon;
 
@@ -41,21 +41,16 @@ CREATE TABLE member_association
 */ 
 
 /* exercise 2 start below */
-BEGIN;
-INSERT INTO member(member_id)
-	VALUES (00000000000), (00000000005);
-INSERT INTO association(association_id)
-	VALUES (00000000000), (00000000005);
+INSERT INTO member(member_id, first_name, last_name)
+	VALUES (6, 'Erik', 'Borchers'), (7, 'Dave', 'Powell');
     
-INSERT INTO member_association(member_id)
-	SELECT member_id
-    FROM member;
-INSERT INTO member_association(association_id)
-	SELECT association_id
-    FROM association;
-COMMIT;
+INSERT INTO association(association_id, association_name)
+	VALUES (6, 'Elon'), (7, 'Duke');
+    
+INSERT INTO member_association(member_id, association_id)
+	VALUES(6, 6), (7, 7);
 
-SELECT association.*, member.*, member_association.*
+SELECT member.first_name, member.last_name, association.association_name
 FROM member_association
 	JOIN member
 		ON member.member_id = member_association.member_id
@@ -66,9 +61,8 @@ ORDER BY
 
 /* exercise 3 start below */
 ALTER TABLE Elon.member
-{
-ADD annual_dues DECIMAL(5,2) [52.50].
-ADD payment_date DATE
-}
+	ADD annual_dues DECIMAL(5,2) DEFAULT 52.50,
+	ADD payment_date DATE
+
 ;
 		
