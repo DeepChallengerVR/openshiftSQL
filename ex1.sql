@@ -1,3 +1,4 @@
+-- Erik Borchers
 -- create the databse
 DROP DATABASE IF EXISTS Elon;
 CREATE DATABASE Elon;
