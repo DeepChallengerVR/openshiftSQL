@@ -1,4 +1,4 @@
--- create the databse
+association-- create the databse
 DROP DATABASE IF EXISTS Elon;
 CREATE DATABASE Elon;
 
@@ -24,21 +24,51 @@ CREATE TABLE association
     association_name VARCHAR(40)
 );
 
-CREATE TABLE member_association
-(
-	member_id INT(11),  
-    association_id INT(11), 
-	CONSTRAINT member
-		FOREIGN KEY (member_id)
-        REFERENCES member(member_id),
-	CONSTRAINT association
-		FOREIGN KEY (association_id)
-        REFERENCES association(association_id)
+CREATE TABLE member_association (
+    member_id INT(11),
+    association_id INT(11),
+    CONSTRAINT member FOREIGN KEY (member_id)
+        REFERENCES member (member_id),
+    CONSTRAINT association FOREIGN KEY (association_id)
+        REFERENCES association (association_id)
 );
-/*
+/* another way to create a association table
 CREATE TABLE member_association
 (
 	member_id INT(11) REFERENCES member(member_id),
     association_id INT(11) REFERENCES association(association_id)
 );
-*/
+*/ 
+
+/* exercise 2 start below */
+BEGIN;
+INSERT INTO member(member_id)
+	VALUES (00000000000), (00000000005);
+INSERT INTO association(association_id)
+	VALUES (00000000000), (00000000005);
+    
+INSERT INTO member_association(member_id)
+	SELECT member_id
+    FROM member;
+INSERT INTO member_association(association_id)
+	SELECT association_id
+    FROM association;
+COMMIT;
+
+SELECT association.*, member.*, member_association.*
+FROM member_association
+	JOIN member
+		ON member.member_id = member_association.member_id
+	JOIN association 
+		ON association.association_id = member_association.association_id
+ORDER BY 
+	association_name, member.last_name, member.first_name;
+
+/* exercise 3 start below */
+ALTER TABLE Elon.member
+{
+ADD annual_dues DECIMAL(5,2) [52.50].
+ADD payment_date DATE
+}
+;
+		
